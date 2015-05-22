@@ -1,0 +1,48 @@
+{
+  "name": "gitm",
+  "description": "The multiple repository tool.",
+  "version": "0.0.1",
+  "author": "snowdream <yanghui1986527@gmail.com>",
+  "homepage": "https://github.com/snowdream/gitm",
+  "keywords": [
+    "nodejs",
+    "git",
+    "tools"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "index.js",
+  "bin": {
+    "gitm": "./bin/gitm"
+  },
+  "maintainers": [
+    {
+      "name": "snowdream",
+      "email": "yanghui1986527@gmail.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "snowdream",
+      "web": "http://snowdream.github.io/"
+    }
+  ],
+  "bugs": {
+    "mail": "yanghui1986527@gmail.com",
+    "url": "https://github.com/snowdream/gitm/issues"
+  },
+  "licenses": [
+    {
+      "type": "Apache License, Version 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ],
+  "Repository": {
+    "type": "git",
+    "url": "https://github.com/snowdream/gitm.git"
+  },
+  "dependencies": {
+    "js-yaml": "~3.3.1"
+  }
+}
