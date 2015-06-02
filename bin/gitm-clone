@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var pjson = require('../package.json');
+
+var cp = require('child_process');
+var exec = cp.exec;
+exec( 'git clone git@github.com:snowdream/gitm.git' ,
+    function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+            console.log('exec error: ' + error);
+        }
+    });

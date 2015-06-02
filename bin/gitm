@@ -5,12 +5,5 @@ var program = require('commander');
 
 program
     .version(pjson.version)
-    .command('install [name]', 'install one or more packages')
-    .command('search [query]', 'search with optional query')
-    .command('list', 'list packages installed')
+    .command('clone', 'clone all git repositories.')
     .parse(process.argv);
-
-
-//var cp = require('child_process');
-//var spawn = cp.spawn;
-//var exec = cp.exec;
