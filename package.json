@@ -43,8 +43,6 @@
     "url": "https://github.com/snowdream/gitm.git"
   },
   "dependencies": {
-    "commander": "^2.8.1",
-    "js-yaml": "~3.3.1",
-    "nodegit": "^0.4.0"
+    "commander": "^2.8.1"
   }
 }

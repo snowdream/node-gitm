@@ -1,9 +1,16 @@
 #!/usr/bin/env node
-var debug = require('debug')('nodejs-gradle-template');
-var app = require('../app');
 
-app.set('port', process.env.PORT || 3000);
+var pjson = require('../package.json');
+var program = require('commander');
 
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
-});
+program
+    .version(pjson.version)
+    .command('install [name]', 'install one or more packages')
+    .command('search [query]', 'search with optional query')
+    .command('list', 'list packages installed')
+    .parse(process.argv);
+
+
+//var cp = require('child_process');
+//var spawn = cp.spawn;
+//var exec = cp.exec;
