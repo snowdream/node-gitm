@@ -4,11 +4,14 @@ var pjson = require('../package.json');
 
 var cp = require('child_process');
 var exec = cp.exec;
-exec( 'git clone git@github.com:snowdream/gitm.git' ,
-    function (error, stdout, stderr) {
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if (error !== null) {
-            console.log('exec error: ' + error);
-        }
-    });
+
+var child = exec('git clone git@github.com:snowdream/gitm.git  --progress -v');
+child.stdout.on('data', function(data) {
+    console.log(data);
+});
+child.stderr.on('data', function(data) {
+    console.log(data);
+});
+child.on('error', function(data) {
+    console.log(data);
+});
