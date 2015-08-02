@@ -2,16 +2,5 @@
 
 var pjson = require('../package.json');
 
-var cp = require('child_process');
-var exec = cp.exec;
-
-var child = exec('git clone git@github.com:snowdream/gitm.git  --progress -v');
-child.stdout.on('data', function(data) {
-    console.log(data);
-});
-child.stderr.on('data', function(data) {
-    console.log(data);
-});
-child.on('error', function(data) {
-    console.log(data);
-});
+var gitm_execure = require('./gitm-execute');
+gitm_execure("git clone git@github.com:snowdream/gitm.git --progress -v");
