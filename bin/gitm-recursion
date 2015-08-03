@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+exports = module.exports = function (command) {
+
+    var repo = require('../repo.gitm');
+    var gitm_execute = require('./gitm-execute');
+
+    if (!repo) {
+        console.warn("The file repo.gitm does not exist.")
+        return;
+    }
+
+    if(!repo.repository && !repo.repositories){
+        console.warn("The file repo.gitm is not valid.")
+        return;
+    }
+
+    if(repo.repository){
+
+    }else if(repo.repositories){
+
+    }
+
+    gitm_execute(command);
+}
+
+
+
+function dealRepo(repo){
+    if(!repo){
+        return;
+    }
+
+
+
+}
+
+function isArray(obj) {
+    return Object.prototype.toString.call(obj) == '[object Array]';
+}

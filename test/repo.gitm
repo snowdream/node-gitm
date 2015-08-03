@@ -2,18 +2,27 @@
   "repositories": [
     {
       "url": "https://github.com/snowdream/gitm.git",
-      "branches":["develop","master"],
-      "name":"gitmA"
+      "branches": [
+        "develop",
+        "master"
+      ],
+      "name": "gitmA"
     },
     {
       "url": "https://github.com/snowdream/gitm.git",
-      "branches":["develop","master"],
-      "name":"gitmB"
+      "branches": [
+        "develop",
+        "master"
+      ],
+      "name": "gitmB"
     },
     {
       "url": "https://github.com/snowdream/gitm.git",
-      "branches":["develop","master"],
-      "name":"gitmC"
+      "branches": [
+        "develop",
+        "master"
+      ],
+      "name": "gitmC"
     }
   ]
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-exports = module.exports = function (command) {
+exports.execSync  = function (command) {
     var cp = require('child_process');
     var execSync = cp.execSync;
 
@@ -11,7 +11,30 @@ exports = module.exports = function (command) {
 
     console.info("$ " + command);
 
+    var out = execSync(command);
+    console.info(out);
+};
 
-    var child = execSync(command);
-    console.log(child);
+exports.exec = function (command) {
+    var cp = require('child_process');
+    var exec = cp.exec;
+
+    if (!command) {
+        console.warn("command should not be null or empty.")
+        return;
+    }
+
+    console.info("$ " + command);
+
+
+    var child = exec(command);
+    child.stdout.on('data', function (data) {
+        console.log(data);
+    });
+    child.stderr.on('data', function (data) {
+        console.log(data);
+    });
+    child.on('error', function (data) {
+        console.log(data);
+    });
 };

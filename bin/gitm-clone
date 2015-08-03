@@ -1,6 +1,38 @@
 #!/usr/bin/env node
 
-var pjson = require('../package.json');
+var fs = require('fs');
+var file = __dirname + '/repo.gitm';
+var repo = JSON.parse(fs.readFileSync('./repo.gitm'));
+var gitm_execute = require('./gitm-execute');
+console.warn(repo);
 
-var gitm_execure = require('./gitm-execute');
-gitm_execure("git clone git@github.com:snowdream/gitm.git --progress -v");
+if (!repo) {
+    console.warn("The file repo.gitm does not exist.");
+    return;
+}
+
+if (!repo.repository && !repo.repositories) {
+    console.warn("The file repo.gitm is not valid.");
+    return;
+}
+
+if (repo.repository) {
+    dealRepo(repo.repository, true);
+} else if (repo.repositories) {
+    for (var i = 0, len = repo.repositories.length; i < len; i++) {
+        dealRepo(repo.repositories[i], true);
+    }
+}
+
+
+function dealRepo(repo, isRoot) {
+    if (!repo) {
+        return;
+    }
+    gitm_execute.execSync("git clone "+ repo.url + " "+repo.name);
+}
+
+function isArray(obj) {
+    return Object.prototype.toString.call(obj) == '[object Array]';
+}
+
