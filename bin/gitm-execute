@@ -2,7 +2,7 @@
 
 exports = module.exports = function (command) {
     var cp = require('child_process');
-    var exec = cp.exec;
+    var execSync = cp.execSync;
 
     if (!command) {
         console.warn("command should not be null or empty.")
@@ -12,14 +12,6 @@ exports = module.exports = function (command) {
     console.info("$ " + command);
 
 
-    var child = exec(command);
-    child.stdout.on('data', function (data) {
-        console.log(data);
-    });
-    child.stderr.on('data', function (data) {
-        console.log(data);
-    });
-    child.on('error', function (data) {
-        console.log(data);
-    });
-}
+    var child = execSync(command);
+    console.log(child);
+};
