@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+var path = require('path')
 var file = __dirname + '/repo.gitm';
 var repo = JSON.parse(fs.readFileSync('./repo.gitm'));
 var gitm_execute = require('./gitm-execute');
@@ -17,19 +18,38 @@ if (!repo.repository && !repo.repositories) {
 }
 
 if (repo.repository) {
-    dealRepo(repo.repository, true);
+    dealRepo(repo.repository, __dirname);
 } else if (repo.repositories) {
     for (var i = 0, len = repo.repositories.length; i < len; i++) {
-        dealRepo(repo.repositories[i], true);
+        dealRepo(repo.repositories[i], __dirname);
     }
 }
 
 
-function dealRepo(repo, isRoot) {
+function dealRepo(repo, dir) {
     if (!repo) {
         return;
     }
-    gitm_execute.execSync("git clone "+ repo.url + " "+repo.name);
+
+    gitm_execute.exec("git clone " + repo.url + " " + repo.name);
+
+    if (repo.repositories) {
+        try {
+            if(!fs.existsSync(repo.name)){
+                fs.mkdirSync(repo.name);
+            }
+            process.chdir(repo.name);
+        }
+        catch (err) {
+            console.log('chdir: ' + err);
+        }
+
+        for (var i = 0, len = repo.repositories.length; i < len; i++) {
+            dealRepo(repo.repositories[i]);
+        }
+
+        process.chdir(dir.toString());
+    }
 }
 
 function isArray(obj) {
