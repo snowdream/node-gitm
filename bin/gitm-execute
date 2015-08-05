@@ -29,12 +29,12 @@ exports.exec = function (command) {
 
     var child = exec(command);
     child.stdout.on('data', function (data) {
-        console.log(data);
+        console.info(data);
     });
     child.stderr.on('data', function (data) {
-        console.log(data);
+        console.info(data);
     });
     child.on('error', function (data) {
-        console.log(data);
+        console.info(data);
     });
 };

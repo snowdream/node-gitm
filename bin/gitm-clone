@@ -31,7 +31,7 @@ function dealRepo(repo, dir) {
         return;
     }
 
-    gitm_execute.exec("git clone " + repo.url + " " + repo.name);
+    gitm_execute.execSync("git clone " + repo.url + " " + repo.name +" --progress -v");
 
     if (repo.repositories) {
         try {
