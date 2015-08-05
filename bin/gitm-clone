@@ -1,10 +1,28 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var path = require('path')
-var file = __dirname + '/repo.gitm';
-var repo = JSON.parse(fs.readFileSync('./repo.gitm'));
+var request = require('sync-request');
+var program = require('commander');
 var gitm_execute = require('./gitm-execute');
+
+program
+    .parse(process.argv);
+
+var args = program.args;
+
+
+var repo ;
+if(!args.length){
+    repo = JSON.parse(fs.readFileSync('./repo.gitm'));
+}else if(args.length == 1){
+    var res = request('GET', args[0]);
+    repo = JSON.parse(res.getBody());
+}else{
+    console.error('invalid parameters.');
+    process.exit(1);
+}
+
+console.warn("repo:");
 console.warn(repo);
 
 if (!repo) {
@@ -24,7 +42,6 @@ if (repo.repository) {
         dealRepo(repo.repositories[i], __dirname);
     }
 }
-
 
 function dealRepo(repo, dir) {
     if (!repo) {
