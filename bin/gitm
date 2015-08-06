@@ -6,4 +6,6 @@ var program = require('commander');
 program
     .version(pjson.version)
     .command('clone [url]', 'clone all git repositories.')
+    .command('fetch', 'fetch all git repositories.')
+    .command('pull', 'pull current branch for all git repositories.')
     .parse(process.argv);
