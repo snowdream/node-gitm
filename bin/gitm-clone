@@ -54,6 +54,33 @@ function clone(repo, dir) {
 
     gitm_execute.execSync("git clone " + repo.url + " " + repo.name + " --progress -v");
 
+    if(repo.branches){
+        try {
+            if (!fs.existsSync(repo.name)) {
+                fs.mkdirSync(repo.name);
+            }
+            process.chdir(repo.name);
+        }
+        catch (err) {
+            console.log('chdir: ' + err);
+        }
+
+        for (var len = repo.branches.length, i = len -1; i >= 0; i--) {
+            var branch = repo.branches[i];
+            if(branch == "master"){
+                if(i != 0){
+                    continue;
+                }
+                gitm_execute.execSync("git checkout " + branch);
+            }
+            gitm_execute.execSync("git checkout origin/" + branch);
+            gitm_execute.execSync("git checkout -b " + branch);
+            gitm_execute.execSync("git branch --set-upstream "+branch+" origin/" + branch);
+        }
+
+        process.chdir(dir.toString());
+    }
+
     if (repo.repositories) {
         try {
             if (!fs.existsSync(repo.name)) {
