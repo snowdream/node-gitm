@@ -11,13 +11,13 @@ program
 var args = program.args;
 
 
-var repo ;
-if(!args.length){
+var repo;
+if (!args.length) {
     repo = JSON.parse(fs.readFileSync('./repo.gitm'));
-}else if(args.length == 1){
+} else if (args.length == 1) {
     var res = request('GET', args[0]);
     repo = JSON.parse(res.getBody());
-}else{
+} else {
     console.error('invalid parameters.');
     process.exit(1);
 }
@@ -36,23 +36,27 @@ if (!repo.repository && !repo.repositories) {
 }
 
 if (repo.repository) {
-    dealRepo(repo.repository, __dirname);
+    clone(repo.repository, __dirname);
 } else if (repo.repositories) {
     for (var i = 0, len = repo.repositories.length; i < len; i++) {
-        dealRepo(repo.repositories[i], __dirname);
+        clone(repo.repositories[i], __dirname);
     }
 }
 
-function dealRepo(repo, dir) {
+function clone(repo, dir) {
     if (!repo) {
         return;
     }
 
-    gitm_execute.execSync("git clone " + repo.url + " " + repo.name +" --progress -v");
+    if (!repo.name) {
+        repo.name = getRepoName(repo.url);
+    }
+
+    gitm_execute.execSync("git clone " + repo.url + " " + repo.name + " --progress -v");
 
     if (repo.repositories) {
         try {
-            if(!fs.existsSync(repo.name)){
+            if (!fs.existsSync(repo.name)) {
                 fs.mkdirSync(repo.name);
             }
             process.chdir(repo.name);
@@ -62,12 +66,42 @@ function dealRepo(repo, dir) {
         }
 
         for (var i = 0, len = repo.repositories.length; i < len; i++) {
-            dealRepo(repo.repositories[i]);
+            clone(repo.repositories[i]);
         }
 
         process.chdir(dir.toString());
     }
 }
+
+function getRepoName(url) {
+    if (!url) {
+        return;
+    }
+
+    var sep = '/';
+    if (!url.match(sep) && !url.match('\\\\')) {
+        sep = '/';
+    }
+
+    var index = url.lastIndexOf(sep);
+    console.warn(url);
+    console.warn(index);
+    console.warn(url.length - 1);
+
+    if (index == url.length - 1) {
+        url = url.substring(0, index)
+        index = url.lastIndexOf(sep);
+        console.warn(url);
+        console.warn(index);
+    }
+
+    var name = url.substring(index + 1)
+    name= name.replace(/\.git/g, "O")
+    console.warn(name);
+
+    return name;
+}
+
 
 function isArray(obj) {
     return Object.prototype.toString.call(obj) == '[object Array]';
