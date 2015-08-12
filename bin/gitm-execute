@@ -15,7 +15,7 @@ exports.execSync  = function (command) {
     console.info("$ " + command);
 
     var out = execSync(command);
-    console.info(out);
+    console.info(out.toString("UTF-8"));
 };
 
 exports.exec = function (command) {
