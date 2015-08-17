@@ -1,7 +1,7 @@
 {
   "name": "gitm",
   "description": "The multiple repository tool.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "snowdream <yanghui1986527@gmail.com>",
   "homepage": "https://github.com/snowdream/gitm",
   "keywords": [

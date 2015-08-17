@@ -22,16 +22,13 @@ if (!args.length) {
     process.exit(1);
 }
 
-console.warn("repo:");
-console.warn(repo);
-
 if (!repo) {
-    console.warn("The file repo.gitm does not exist.");
+    console.info("The file repo.gitm does not exist.");
     return;
 }
 
 if (!repo.repository && !repo.repositories) {
-    console.warn("The file repo.gitm is not valid.");
+    console.info("The file repo.gitm is not valid.");
     return;
 }
 
@@ -60,6 +57,7 @@ function clone(repo, dir) {
                 fs.mkdirSync(repo.name);
             }
             process.chdir(repo.name);
+            console.log('$ cd ' + repo.name);
         }
         catch (err) {
             console.log('chdir: ' + err);
@@ -73,12 +71,11 @@ function clone(repo, dir) {
                 }
                 gitm_execute.execSync("git checkout " + branch);
             }
-            gitm_execute.execSync("git checkout origin/" + branch);
-            gitm_execute.execSync("git checkout -b " + branch);
-            gitm_execute.execSync("git branch --set-upstream "+branch+" origin/" + branch);
+            gitm_execute.execSync("git checkout -b " + branch+" origin/" + branch);
         }
 
-        process.chdir(dir.toString());
+        process.chdir("..");
+        console.log('$  cd ..');
     }
 
     if (repo.repositories) {
@@ -87,6 +84,7 @@ function clone(repo, dir) {
                 fs.mkdirSync(repo.name);
             }
             process.chdir(repo.name);
+            console.log('$ cd ' + repo.name);
         }
         catch (err) {
             console.log('chdir: ' + err);
@@ -96,7 +94,8 @@ function clone(repo, dir) {
             clone(repo.repositories[i]);
         }
 
-        process.chdir(dir.toString());
+        process.chdir("..");
+        console.log('$ cd ..');
     }
 }
 
@@ -111,20 +110,13 @@ function getRepoName(url) {
     }
 
     var index = url.lastIndexOf(sep);
-    console.warn(url);
-    console.warn(index);
-    console.warn(url.length - 1);
-
     if (index == url.length - 1) {
-        url = url.substring(0, index)
+        url = url.substring(0, index);
         index = url.lastIndexOf(sep);
-        console.warn(url);
-        console.warn(index);
     }
 
-    var name = url.substring(index + 1)
-    name= name.replace(/\.git/g, "O")
-    console.warn(name);
+    var name = url.substring(index + 1);
+    name= name.replace(/\.git/g, "");
 
     return name;
 }

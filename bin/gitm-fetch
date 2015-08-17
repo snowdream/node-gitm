@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+var gitm_recursion = require('./gitm-recursion');
+gitm_recursion.git_recursion("git fetch --all --progress -v");

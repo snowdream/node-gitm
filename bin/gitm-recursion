@@ -1,40 +1,91 @@
 #!/usr/bin/env node
 
-exports = module.exports = function (command) {
+var fs = require('fs');
+var request = require('sync-request');
+var program = require('commander');
+var gitm_execute = require('./gitm-execute');
 
-    var repo = require('../repo.gitm');
-    var gitm_execute = require('./gitm-execute');
+program
+    .parse(process.argv);
 
-    if (!repo) {
-        console.warn("The file repo.gitm does not exist.")
-        return;
-    }
+var repo = JSON.parse(fs.readFileSync('./repo.gitm'));
 
-    if(!repo.repository && !repo.repositories){
-        console.warn("The file repo.gitm is not valid.")
-        return;
-    }
-
-    if(repo.repository){
-
-    }else if(repo.repositories){
-
-    }
-
-    gitm_execute(command);
+if (!repo) {
+    console.info("The file repo.gitm does not exist.");
+    return;
 }
 
+if (!repo.repository && !repo.repositories) {
+    console.info("The file repo.gitm is not valid.");
+    return;
+}
 
+exports.git_recursion  = function (command) {
+    if (repo.repository) {
+        git_command(repo.repository,command);
+    } else if (repo.repositories) {
+        for (var i = 0, len = repo.repositories.length; i < len; i++) {
+            git_command(repo.repositories[i], command);
+        }
+    }
+};
 
-function dealRepo(repo){
-    if(!repo){
+function git_command(repo,command) {
+    if (!repo || !command) {
         return;
     }
 
+    if (!repo.name) {
+        repo.name = getRepoName(repo.url);
+    }
+
+    gitm_execute.execSync(command);
+    //var branch =  gitm_execute.execSync("git branch");
+    //branch = branch.substring()
+    //console.info('branch: ' + branch);
 
 
+    if (repo.repositories) {
+        for (var i = 0, len = repo.repositories.length; i < len; i++) {
+            if(!repo.repositories[i].name){
+                repo.repositories[i].name = getRepoName(repo.repositories[i].url);
+            }
+
+            try {
+                process.chdir(repo.repositories[i].name);
+                console.log('$ cd ' + repo.repositories[i].name);
+            }
+            catch (err) {
+                console.log('chdir: ' + err);
+            }
+
+            git_command(repo.repositories[i],command);
+
+            process.chdir("..");
+            console.log('$ cd ..');
+        }
+
+    }
 }
 
-function isArray(obj) {
-    return Object.prototype.toString.call(obj) == '[object Array]';
+function getRepoName(url) {
+    if (!url) {
+        return;
+    }
+
+    var sep = '/';
+    if (!url.match(sep) && !url.match('\\\\')) {
+        sep = '/';
+    }
+
+    var index = url.lastIndexOf(sep);
+    if (index == url.length - 1) {
+        url = url.substring(0, index);
+        index = url.lastIndexOf(sep);
+    }
+
+    var name = url.substring(index + 1);
+    name = name.replace(/\.git/g, "");
+
+    return name;
 }
