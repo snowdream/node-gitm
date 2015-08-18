@@ -1,0 +1,12 @@
+{
+  "develop":{
+      "gitmA": "develop",
+      "gitmB": "develop",
+      "gitmC": "develop"
+    },
+  "master":{
+    "gitmA": "master",
+    "gitmB": "master",
+    "gitmC": "master"
+  }
+}

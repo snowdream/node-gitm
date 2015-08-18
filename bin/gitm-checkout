@@ -1,0 +1,106 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var request = require('sync-request');
+var program = require('commander');
+var gitm_execute = require('./gitm-execute');
+
+program
+    .parse(process.argv);
+
+var args = program.args;
+
+var groups;
+if(args.length == 1) {
+    groups = args[0];
+    console.info("groups: "+groups);
+
+} else {
+    console.error('invalid parameters.');
+    process.exit(1);
+}
+
+var repo = JSON.parse(fs.readFileSync('./repo.gitm'));
+var branches = JSON.parse(fs.readFileSync('./branch.gitm'));
+
+if (!repo) {
+    console.info("The file repo.gitm does not exist.");
+    return;
+}
+
+if (!branches) {
+    console.info("The file repo.gitm does not exist.");
+    return;
+}
+
+if (!repo.repository && !repo.repositories) {
+    console.info("The file repo.gitm is not valid.");
+    return;
+}
+
+if (repo.repository) {
+    git_command(repo.repository);
+} else if (repo.repositories) {
+    for (var i = 0, len = repo.repositories.length; i < len; i++) {
+        git_command(repo.repositories[i]);
+    }
+}
+
+function git_command(repo) {
+    if (!repo) {
+        return;
+    }
+
+    if (!repo.name) {
+        repo.name = getRepoName(repo.url);
+    }
+
+    var branch = branches[groups][repo.name]
+    if(branch){
+        gitm_execute.execSync("git checkout "+ branch);
+    }
+
+    if (repo.repositories) {
+        for (var i = 0, len = repo.repositories.length; i < len; i++) {
+            if(!repo.repositories[i].name){
+                repo.repositories[i].name = getRepoName(repo.repositories[i].url);
+            }
+
+            try {
+                process.chdir(repo.repositories[i].name);
+                console.log('$ cd ' + repo.repositories[i].name);
+            }
+            catch (err) {
+                console.log('chdir: ' + err);
+            }
+
+            git_command(repo.repositories[i]);
+
+            process.chdir("..");
+            console.log('$ cd ..');
+        }
+
+    }
+}
+
+function getRepoName(url) {
+    if (!url) {
+        return;
+    }
+
+    var sep = '/';
+    if (!url.match(sep) && !url.match('\\\\')) {
+        sep = '/';
+    }
+
+    var index = url.lastIndexOf(sep);
+    if (index == url.length - 1) {
+        url = url.substring(0, index);
+        index = url.lastIndexOf(sep);
+    }
+
+    var name = url.substring(index + 1);
+    name = name.replace(/\.git/g, "");
+
+    return name;
+}
