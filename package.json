@@ -43,6 +43,7 @@
     "url": "https://github.com/snowdream/gitm.git"
   },
   "dependencies": {
+    "asciimo": "^0.3.1",
     "commander": "^2.8.1",
     "config": "^1.14.0",
     "sync-request": "^2.0.1"

@@ -2,10 +2,20 @@
 
 var pjson = require('../package.json');
 var program = require('commander');
+var asciimo = require('asciimo/lib/asciimo').Figlet;
+var colors = require('asciimo/lib/colors'); // add colors for fun
 
-program
-    .version(pjson.version)
-    .command('clone [url]', 'clone all git repositories.')
-    .command('fetch', 'fetch all git repositories.')
-    .command('pull', 'pull current branch for all git repositories.')
-    .parse(process.argv);
+// pick the font file
+var font = 'larry3d';
+// set text we are writeing to turn into leet ascii art
+var text = "SNOWDREAM";
+asciimo.write(text, font, function(art) {
+    var version = "gitm version "+pjson.version +"\n\n"+ art.green;
+
+    program
+        .version(version)
+        .command('clone [url]', 'clone all git repositories.')
+        .command('fetch', 'fetch all git repositories.')
+        .command('pull', 'pull current branch for all git repositories.')
+        .parse(process.argv);
+});
