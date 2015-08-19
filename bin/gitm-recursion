@@ -19,11 +19,17 @@ if (!repo.repository && !repo.repositories) {
 
 exports.git_recursion  = function (command) {
     if (repo.repository) {
+        if(!repo.repository.name){
+            repo.repository.name = getRepoName( repo.repository.url);
+        }
         console.log(os.EOL);
         console.log('$ cd ' + repo.repository.name);
         git_command(repo.repository,command);
     } else if (repo.repositories) {
         for (var i = 0, len = repo.repositories.length; i < len; i++) {
+            if(!repo.repository[i].name){
+                repo.repository[i].name = getRepoName( repo.repository[i].url);
+            }
             console.log(os.EOL);
             console.log('$ cd ' + repo.repositories[i].name);
             git_command(repo.repositories[i], command);
