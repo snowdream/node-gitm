@@ -4,7 +4,6 @@ var pjson = require('../package.json');
 var program = require('commander');
 var asciimo = require('asciimo/lib/asciimo').Figlet;
 var colors = require('asciimo/lib/colors'); // add colors for fun
-var gitm_recursion = require('./gitm-recursion');
 
 // pick the font file
 var font = 'larry3d';
@@ -20,12 +19,12 @@ asciimo.write(text, font, function(art) {
         .command('fetch', 'fetch all git repositories.')
         .command('pull', 'pull current branch for all git repositories.')
         .parse(process.argv);
-
-
-    var args = program.args;
-    if (args.length) {
-        var command = 'git '+args.join(' ');
-        gitm_recursion.git_recursion(command);
-        process.exit(1);
-    }
 });
+
+//var gitm_recursion = require('./gitm-recursion');
+//var args = program.args;
+//if (args.length) {
+//    var command = 'git '+args.join(' ');
+//    gitm_recursion.git_recursion(command);
+//    process.exit(1);
+//}
