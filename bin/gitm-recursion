@@ -2,12 +2,8 @@
 
 var fs = require('fs');
 var request = require('sync-request');
-var program = require('commander');
 var gitm_execute = require('./gitm-execute');
 var os = require('os');
-
-program
-    .parse(process.argv);
 
 var repo = JSON.parse(fs.readFileSync('./repo.gitm'));
 
