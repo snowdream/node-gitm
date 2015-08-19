@@ -4,6 +4,7 @@ var fs = require('fs');
 var request = require('sync-request');
 var program = require('commander');
 var gitm_execute = require('./gitm-execute');
+var os = require('os');
 
 program
     .parse(process.argv);
@@ -57,6 +58,7 @@ function clone(repo, dir) {
                 fs.mkdirSync(repo.name);
             }
             process.chdir(repo.name);
+            console.log(os.EOL);
             console.log('$ cd ' + repo.name);
         }
         catch (err) {
@@ -84,6 +86,7 @@ function clone(repo, dir) {
                 fs.mkdirSync(repo.name);
             }
             process.chdir(repo.name);
+            console.log(os.EOL);
             console.log('$ cd ' + repo.name);
         }
         catch (err) {

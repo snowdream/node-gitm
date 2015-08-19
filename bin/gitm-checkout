@@ -4,6 +4,7 @@ var fs = require('fs');
 var request = require('sync-request');
 var program = require('commander');
 var gitm_execute = require('./gitm-execute');
+var os = require('os');
 
 program
     .parse(process.argv);
@@ -68,6 +69,7 @@ function git_command(repo) {
 
             try {
                 process.chdir(repo.repositories[i].name);
+                console.log(os.EOL);
                 console.log('$ cd ' + repo.repositories[i].name);
             }
             catch (err) {

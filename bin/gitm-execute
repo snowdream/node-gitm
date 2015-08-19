@@ -4,14 +4,12 @@
 exports.execSync  = function (command) {
     var cp = require('child_process');
     var execSync = cp.execSync;
-    var os = require('os');
 
     if (!command) {
         console.info("command should not be null or empty.")
         return;
     }
 
-    console.log(os.EOL);
     console.info("$ " + command);
 
     var out = execSync(command);
@@ -21,14 +19,12 @@ exports.execSync  = function (command) {
 exports.exec = function (command) {
     var cp = require('child_process');
     var exec = cp.exec;
-    var os = require('os');
 
     if (!command) {
         console.info("command should not be null or empty.")
         return;
     }
 
-    console.log(os.EOL);
     console.info("$ " + command);
 
 
