@@ -14,8 +14,6 @@ var args = program.args;
 var groups;
 if(args.length == 1) {
     groups = args[0];
-    console.info("groups: "+groups);
-
 } else {
     console.error('invalid parameters.');
     process.exit(1);
@@ -29,20 +27,25 @@ if (!repo) {
     return;
 }
 
-if (!branches) {
-    console.info("The file repo.gitm does not exist.");
-    return;
-}
-
 if (!repo.repository && !repo.repositories) {
     console.info("The file repo.gitm is not valid.");
     return;
 }
 
 if (repo.repository) {
+    if(!repo.repository.name){
+        repo.repository.name = getRepoName( repo.repository.url);
+    }
+    console.log(os.EOL);
+    console.log('$ cd ' + repo.repository.name);
     git_command(repo.repository);
 } else if (repo.repositories) {
     for (var i = 0, len = repo.repositories.length; i < len; i++) {
+        if(!repo.repository[i].name){
+            repo.repository[i].name = getRepoName( repo.repository[i].url);
+        }
+        console.log(os.EOL);
+        console.log('$ cd ' + repo.repositories[i].name);
         git_command(repo.repositories[i]);
     }
 }
@@ -56,7 +59,10 @@ function git_command(repo) {
         repo.name = getRepoName(repo.url);
     }
 
-    var branch = branches[groups][repo.name]
+    var branch = branches[groups][repo.name];
+    if(!branch){
+        branch = groups;
+    }
     if(branch){
         gitm_execute.execSync("git checkout "+ branch);
     }
