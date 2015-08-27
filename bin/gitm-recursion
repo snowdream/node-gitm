@@ -5,19 +5,35 @@ var request = require('sync-request');
 var gitm_execute = require('./gitm-execute');
 var os = require('os');
 
-var repo = JSON.parse(fs.readFileSync('./repo.gitm'));
-
-if (!repo) {
-    console.info("The file repo.gitm does not exist.");
-    return;
+var repo;
+try{
+repo = JSON.parse(fs.readFileSync('./repo.gitm'));
+}catch(error){
+    //console.warn(error);
 }
 
-if (!repo.repository && !repo.repositories) {
-    console.info("The file repo.gitm is not valid.");
-    return;
-}
+//if (!repo) {
+//    console.info("The file repo.gitm does not exist.");
+//    return;
+//}
+//
+//if (!repo.repository && !repo.repositories) {
+//    console.info("The file repo.gitm is not valid.");
+//    return;
+//}
 
 exports.git_recursion  = function (command) {
+    if (!repo) {
+        if (command) {
+            gitm_execute.execSync(command);
+        }
+        return;
+    }
+
+    if (!command) {
+        return;
+    }
+
     if (repo.repository) {
         if(!repo.repository.name){
             repo.repository.name = getRepoName( repo.repository.url);
@@ -38,7 +54,14 @@ exports.git_recursion  = function (command) {
 };
 
 function git_command(repo,command) {
-    if (!repo || !command) {
+    if (!repo) {
+        if (command) {
+            gitm_execute.execSync(command);
+        }
+        return;
+    }
+
+    if (!command) {
         return;
     }
 
