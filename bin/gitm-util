@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+/**
+ * change command from gitm style to git style
+ *
+ * @returns {string}  command
+ */
+exports.gitm2git = function () {
+    var argv = process.argv.slice(2);
+    if (argv) {
+        console.warn(argv);
+        return 'git ' + argv.join(' ');
+    }
+};
+
+/**
+ *  0 execute with git, but not recursively
+ *  1 execute with git, recursively
+ *  2 execute with gitm
+ *
+ * @returns {number} type
+ */
+exports.getType = function () {
+    var type = 2;
+    var arg = process.argv.slice(2,3);
+    var gitm_support = ['pull','push','fetch','checkout','clone','-h', '--help', '-V', '--version'];
+    var git_support_one =['help'];
+    if (arg) {
+        if(gitm_support.contains(arg)){
+            type = 2;
+        }else if(git_support_one.contains(arg)){
+            type = 0;
+        }else{
+            type = 1;
+        }
+    }
+    return type;
+};
+
+/**
+ * see http://outofmemory.cn/code-snippet/1818/expand-javascript-Array-plus-contains-method
+ *
+ *
+ * @param obj
+ * @returns {boolean}
+ */
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] == obj) {
+            return true;
+        }
+    }
+    return false;
+};

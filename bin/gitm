@@ -5,30 +5,64 @@ var program = require('commander');
 var asciimo = require('asciimo/lib/asciimo').Figlet;
 var colors = require('asciimo/lib/colors'); // add colors for fun
 var gitm_recursion = require('./gitm-recursion');
+var gitm_execute = require('./gitm-execute');
+var gitm_util = require('./gitm-util');
 
-// pick the font file
-var font = 'larry3d';
-// set text we are writeing to turn into leet ascii art
-var text = "SNOWDREAM";
-asciimo.write(text, font, function(art) {
-    var version = "gitm version "+pjson.version +"\n\n"+ art.green;
 
-    program
-        .version(version)
-        .command('clone [url]', 'clone all git repositories.')
-        .command('checkout [group]', 'checkout all git repositories.')
-        .command('fetch', 'fetch all git repositories.')
-        .command('pull', 'pull current branch for all git repositories.')
-        .parse(process.argv);
+main();
 
-    var args = program.args;
-    if (args) {
-        var argv = process.argv.slice(2);
-        if(argv) {
-            var command = 'git ' + argv.join(' ');
-            gitm_recursion.git_recursion(command);
-        }
-        process.exit(1);
+/**
+ * main
+ */
+function main() {
+    switch (gitm_util.getType()) {
+        case 0:
+            git_main(false);
+            break;
+        case 1:
+            git_main(true);
+            break;
+        case 2:
+            gitm_main();
+            break;
+        default:
+            break;
     }
-});
+}
 
+/**
+ * gitm main
+ */
+function gitm_main() {
+    // pick the font file
+    var font = 'larry3d';
+    // set text we are writeing to turn into leet ascii art
+    var text = "SNOWDREAM";
+    asciimo.write(text, font, function (art) {
+        var version = "gitm version " + pjson.version + "\n\n" + art.green;
+
+        program
+            .version(version)
+            .command('clone [url]', 'clone all git repositories.')
+            .command('checkout [group]', 'checkout all git repositories.')
+            .command('fetch', 'fetch all git repositories.')
+            .command('pull', 'pull current branch for all git repositories.')
+            .parse(process.argv);
+    });
+}
+
+/**
+ * git main
+ *
+ * @param isrecursive
+ */
+function git_main(isrecursive) {
+    var command = gitm_util.gitm2git();
+    if (!command) return;
+
+    if (isrecursive) {
+        gitm_recursion.git_recursion(command);
+    } else {
+        gitm_execute.execSync(command);
+    }
+}
