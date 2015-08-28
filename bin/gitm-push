@@ -8,8 +8,8 @@ gitm_recursion.git_recursion(command);
 function command() {
     var branch = gitm_util.currentBranch();
     if (branch) {
-        return ("git pull origin " + branch + " --progress -v");
+        return ("git push origin " + branch + ":"+branch+" --progress -v");
     } else {
-        return ("git pull origin --progress -v");
+        return ("git push origin --progress -v");
     }
 }

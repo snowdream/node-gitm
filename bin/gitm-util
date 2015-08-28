@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+var gitm_execute = require('./gitm-execute');
+
 /**
  * change command from gitm style to git style
  *
@@ -52,4 +54,12 @@ Array.prototype.contains = function(obj) {
         }
     }
     return false;
+};
+
+
+/**
+ * get current git branch name
+ */
+exports.currentBranch = function(){
+  return gitm_execute.execSync('git rev-parse --abbrev-ref HEAD');
 };

@@ -1,28 +1,42 @@
 #!/usr/bin/env node
 
 
-exports.execSync  = function (command) {
+exports.execSync  = function (cmd) {
     var cp = require('child_process');
     var execSync = cp.execSync;
 
-    if (!command) {
+    if (!cmd) {
         console.info("command should not be null or empty.")
         return;
+    }
+
+    var command = cmd;
+    if(cmd instanceof Function){
+        command = cmd();
     }
 
     console.info("$ " + command);
 
     var out = execSync(command);
-    console.info(out.toString("UTF-8"));
+    if(out){
+        console.info(out.toString("UTF-8"));
+        return out.toString("UTF-8").replace(/[\r\n]+/g,'');;
+    }
+
 };
 
-exports.exec = function (command) {
+exports.exec = function (cmd) {
     var cp = require('child_process');
     var exec = cp.exec;
 
-    if (!command) {
+    if (!cmd) {
         console.info("command should not be null or empty.")
         return;
+    }
+
+    var command = cmd;
+    if(cmd instanceof Function){
+        command = cmd();
     }
 
     console.info("$ " + command);

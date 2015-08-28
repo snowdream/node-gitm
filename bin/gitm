@@ -47,6 +47,7 @@ function gitm_main() {
             .command('checkout [group]', 'checkout all git repositories.')
             .command('fetch', 'fetch all git repositories.')
             .command('pull', 'pull current branch for all git repositories.')
+            .command('push', 'push current branch for all git repositories.')
             .parse(process.argv);
     });
 }
