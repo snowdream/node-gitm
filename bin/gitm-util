@@ -27,6 +27,12 @@ exports.getType = function () {
     var arg = process.argv.slice(2,3);
     var gitm_support = ['pull','push','fetch','checkout','clone','-h', '--help', '-V', '--version'];
     var git_support_one =['help'];
+
+    if(process.argv.length > 3 && process.argv.contains('--help')){
+        type = 0;
+        return type;
+    }
+
     if (arg) {
         if(gitm_support.contains(arg)){
             type = 2;
@@ -62,4 +68,11 @@ Array.prototype.contains = function(obj) {
  */
 exports.currentBranch = function(){
   return gitm_execute.execSync('git rev-parse --abbrev-ref HEAD');
+};
+
+/**
+ * get current git remote name
+ */
+exports.currentRemote = function(){
+    return gitm_execute.execSync('git rev-parse --abbrev-ref HEAD');
 };
