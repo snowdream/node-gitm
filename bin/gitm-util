@@ -2,6 +2,7 @@
 
 var gitm_execute = require('./gitm-execute');
 var fs = require('fs');
+var os = require('os');
 
 /**
  * change command from gitm style to git style
@@ -57,22 +58,6 @@ exports.getType = function () {
     return type;
 };
 
-/**
- * see http://outofmemory.cn/code-snippet/1818/expand-javascript-Array-plus-contains-method
- *
- *
- * @param obj
- * @returns {boolean}
- */
-Array.prototype.contains = function(obj) {
-    var i = this.length;
-    while (i--) {
-        if (this[i] == obj) {
-            return true;
-        }
-    }
-    return false;
-};
 
 
 /**
@@ -89,4 +74,60 @@ exports.currentRemote = function(){
     var remote = "origin";
     remote = gitm_execute.execSync('git config branch.master.remote');
     return remote;
+};
+
+/**
+ * isLocalBranchExist
+ */
+exports.isLocalBranchExist = function(branch){
+    var isExist = false;
+    if(!branch){
+        return isExist;
+    }
+
+    var branches  = gitm_execute.execSync('git branch');
+    if(branches){
+        branches = branches.replace("*"," ").replace(/(^\s*)|(\s*$)/g, "").split(/\s{2,}/);
+        isExist =  branches.contains(branch);
+    }
+
+    return isExist;
+};
+
+
+/**
+ * isRemoteBranchExist
+ */
+exports.isRemoteBranchExist = function(branch){
+    var isExist = false;
+    if(!branch){
+        return isExist;
+    }
+
+    var branches  = gitm_execute.execSync('git branch -r');
+    if(branches){
+        branches = branches.replace("*"," ").replace(/(^\s*)|(\s*$)/g, "").split(/\s{2,}/);
+        isExist =  branches.contains(branch);
+    }
+
+    return isExist;
+};
+
+
+
+/**
+ * see http://outofmemory.cn/code-snippet/1818/expand-javascript-Array-plus-contains-method
+ *
+ *
+ * @param obj
+ * @returns {boolean}
+ */
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] == obj) {
+            return true;
+        }
+    }
+    return false;
 };

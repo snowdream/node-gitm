@@ -5,6 +5,7 @@ var request = require('sync-request');
 var program = require('commander');
 var gitm_execute = require('./gitm-execute');
 var os = require('os');
+var gitm_util = require('./gitm-util');
 
 program
     .parse(process.argv);
@@ -38,7 +39,7 @@ if (repo.repository) {
     }
     console.log(os.EOL);
     console.log('$ cd ' + repo.repository.name);
-    git_command(repo.repository);
+    git_checkout(repo.repository);
 } else if (repo.repositories) {
     for (var i = 0, len = repo.repositories.length; i < len; i++) {
         if(!repo.repository[i].name){
@@ -46,11 +47,11 @@ if (repo.repository) {
         }
         console.log(os.EOL);
         console.log('$ cd ' + repo.repositories[i].name);
-        git_command(repo.repositories[i]);
+        git_checkout(repo.repositories[i]);
     }
 }
 
-function git_command(repo) {
+function git_checkout(repo) {
     if (!repo) {
         return;
     }
@@ -60,11 +61,37 @@ function git_command(repo) {
     }
 
     var branch = branches[groups][repo.name];
+    var upBranch;
     if(!branch){
         branch = groups;
+    }else{
+        var array = branch.split(":");
+        if(array.length > 0){
+            branch = array[0];
+        }
+
+        if(array.length > 1){
+            upBranch = array[1];
+        }
     }
+
+
     if(branch){
-        gitm_execute.execSync("git checkout "+ branch);
+        if(gitm_util.isLocalBranchExist(branch)){
+            gitm_execute.execSync("git checkout "+ branch);
+        }else{
+            gitm_execute.execSync("git fetch --all --progress -v");
+
+            if(gitm_util.isRemoteBranchExist("origin/"+branch)){
+                gitm_execute.execSync("git checkout -b " + branch+" origin/" + branch);
+            }else if(gitm_util.isLocalBranchExist(upBranch)){
+                gitm_execute.execSync("git checkout -b " + branch+" " + upBranch);
+            }else if(gitm_util.isRemoteBranchExist("origin/"+ upBranch)){
+                gitm_execute.execSync("git checkout -b " + branch+" origin/" + upBranch);
+            }else{
+                gitm_execute.execSync("git checkout -b " + branch);
+            }
+        }
     }
 
     if (repo.repositories) {
@@ -82,7 +109,7 @@ function git_command(repo) {
                 console.log('chdir: ' + err);
             }
 
-            git_command(repo.repositories[i]);
+            git_checkout(repo.repositories[i]);
 
             process.chdir("..");
             console.log('$ cd ..');
@@ -91,6 +118,12 @@ function git_command(repo) {
     }
 }
 
+/**
+ * get repo name from url
+ *
+ * @param url
+ * @returns {string}
+ */
 function getRepoName(url) {
     if (!url) {
         return;
