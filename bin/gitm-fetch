@@ -1,4 +1,17 @@
 #!/usr/bin/env node
 
+var gitm_util = require('./gitm-util');
 var gitm_recursion = require('./gitm-recursion');
-gitm_recursion.git_recursion("git fetch --all --progress -v");
+
+
+gitm_recursion.git_recursion(command);
+
+function command() {
+    var command = "git fetch " + gitm_util.gitm2argv();
+
+    if (process.argv.length <= 2) {
+        command = ("git fetch --all --progress -v");
+    }
+
+    return command;
+}

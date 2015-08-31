@@ -6,10 +6,16 @@ var gitm_recursion = require('./gitm-recursion');
 gitm_recursion.git_recursion(command);
 
 function command() {
-    var branch = gitm_util.currentBranch();
-    if (branch) {
-        return ("git pull origin " + branch + " --progress -v");
-    } else {
-        return ("git pull origin --progress -v");
+    var command =  "git pull " + gitm_util.gitm2argv();
+
+    if(process.argv.length <= 2){
+        var branch = gitm_util.currentBranch();
+        if (branch) {
+            command =  ("git pull origin " + branch + " --progress -v");
+        } else {
+            command =  ("git pull origin --progress -v");
+        }
     }
+
+    return command;
 }

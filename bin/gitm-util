@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var gitm_execute = require('./gitm-execute');
+var fs = require('fs');
 
 /**
  * change command from gitm style to git style
@@ -10,8 +11,19 @@ var gitm_execute = require('./gitm-execute');
 exports.gitm2git = function () {
     var argv = process.argv.slice(2);
     if (argv) {
-        console.warn(argv);
         return 'git ' + argv.join(' ');
+    }
+};
+
+/**
+ * get argv except git sub comnmand
+ *
+ * @returns {string}  command
+ */
+exports.gitm2argv = function () {
+    var argv = process.argv.slice(2);
+    if (argv) {
+        return argv.join(' ');
     }
 };
 
@@ -74,5 +86,7 @@ exports.currentBranch = function(){
  * get current git remote name
  */
 exports.currentRemote = function(){
-    return gitm_execute.execSync('git rev-parse --abbrev-ref HEAD');
+    var remote = "origin";
+    remote = gitm_execute.execSync('git config branch.master.remote');
+    return remote;
 };
