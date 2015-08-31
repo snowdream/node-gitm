@@ -1,12 +1,12 @@
 #gitm
 
-##Introduction
+## Introduction
 The multiple repository tool
 
-##System requirements
+## System requirements
 Node.js
 
-##License
+## License
 ```
 Copyright (C) 2014 Snowdream Mobile <yanghui1986527@gmail.com>
 
