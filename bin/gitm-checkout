@@ -20,8 +20,20 @@ if(args.length == 1) {
     process.exit(1);
 }
 
-var repo = JSON.parse(fs.readFileSync('./repo.gitm'));
-var branches = JSON.parse(fs.readFileSync('./branch.gitm'));
+var repo;
+var branches;
+try {
+    repo = JSON.parse(fs.readFileSync('./repo.gitm'));
+}catch(error){
+    console.warn(error);
+    process.exit(1);
+}
+
+try {
+    branches = JSON.parse(fs.readFileSync('./branch.gitm'));
+}catch(error){
+    console.warn(error);
+}
 
 if (!repo) {
     console.info("The file repo.gitm does not exist.");
@@ -60,11 +72,13 @@ function git_checkout(repo) {
         repo.name = getRepoName(repo.url);
     }
 
-    var branch = branches[groups][repo.name];
+    var branch;
     var upBranch;
-    if(!branch){
+
+    if(!branches || !branches[groups] || !branches[groups][repo.name] ){
         branch = groups;
     }else{
+        branch = branches[groups][repo.name];
         var array = branch.split(":");
         if(array.length > 0){
             branch = array[0];
