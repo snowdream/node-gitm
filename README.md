@@ -1,10 +1,7 @@
 #gitm
+  [![NPM Version][npm-image]][npm-url]
+  [![NPM Downloads][downloads-image]][downloads-url]
 
-  [![NPM Version][https://img.shields.io/npm/v/gitm.svg]][https://www.npmjs.com/package/gitm]
-  [![NPM Downloads][https://img.shields.io/npm/dm/gitm.svg]][https://www.npmjs.com/package/gitm]
-  [![LICENSE][https://img.shields.io/npm/l/gitm.svg]][https://www.npmjs.com/package/gitm]
-
-  
 ## Introduction
 The multiple repository tool
 
@@ -27,3 +24,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+[npm-image]: https://img.shields.io/npm/v/gitm.svg
+[npm-url]: https://npmjs.org/package/gitm
+[downloads-image]: https://img.shields.io/npm/dm/gitm.svg
+[downloads-url]: https://npmjs.org/package/gitm
