@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+var fs = require('fs');
+
+init();
+
+
+/**
+ * gitm init
+ */
+function init() {
+    initRepo();
+    initBranch();
+    initIgnore();
+}
+
+
+/**
+ * check whether the repo.gitm exist.
+ * if not ,try to create it.
+ */
+function initRepo() {
+    if(fs.existsSync('./repo.gitm')){
+        console.info("The repo.gitm does exist.");
+        return;
+    }
+
+
+}
+
+/**
+ * check whether the branch.gitm exist.
+ * if not ,try to create it.
+ */
+function initBranch() {
+    if(fs.existsSync('./branch.gitm')){
+        console.info("The branch.gitm does exist.");
+        return;
+    }
+
+}
+
+/**
+ * check whether the .gitignore exist.
+ * if not or not valid,try to create it.
+ */
+function initIgnore() {
+
+
+}
