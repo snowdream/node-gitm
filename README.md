@@ -93,6 +93,7 @@ gitm checkout new
 1. if the branch **develop** exist, excute `git checkout –b new develop`
 1. if the branch **origin/develop** exist, excute `git checkout –b new origin/develop`
 1. if all the branch up does not exist, excute `git checkout –b new`
+
 All the steps will be taken in order. once a step has been taken, then the command is finished, and the rest steps will not be taken.
 
 ### gitm fetch
@@ -152,7 +153,7 @@ Use git in place of gitm, then execute the command in every git repository.
 
 ## License
 ```
-Copyright (C) 2014 Snowdream Mobile <yanghui1986527@gmail.com>
+Copyright (C) 2015 Snowdream Mobile <yanghui1986527@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
