@@ -3,6 +3,7 @@ var fs = require('fs');
 var os = require('os');
 var path = require('path');
 var gitm_util = require('./gitm-util');
+var ignore = require('ignore');
 
 init();
 
@@ -115,10 +116,9 @@ function initRepo() {
  * @param value
  * @returns {*}
  */
-function replacer(key,value)
-{
+function replacer(key, value) {
     if (!value) return undefined;
-    if(value instanceof  Array && value.length == 0) return undefined;
+    if (value instanceof  Array && value.length == 0) return undefined;
     else return value;
 }
 
@@ -194,6 +194,60 @@ function initBranch() {
  * if not or not valid,try to create it.
  */
 function initIgnore() {
+    walk = function (isRoot, dir) {
+        var files = fs.readdirSync(dir);
+        if (!files.contains('.git')) {
+            return;
+        }
 
+        if (!isRoot) {
+            try {
+                process.chdir(dir);
+                //console.log(os.EOL);
+                //console.log('$ cd ' + dir);
+            }
+            catch (err) {
+                console.log('chdir: ' + err);
+            }
+        }
+        var patterns = [];
 
+        files.forEach(function (file) {
+            var tmpPath = dir + '/' + file;
+            var stats = fs.statSync(tmpPath);
+
+            if (stats.isDirectory()) {
+                var tmpFiles = fs.readdirSync(tmpPath);
+
+                if (tmpFiles && tmpFiles.contains('.git')) {
+                    patterns.push(file);
+                }
+            }
+        });
+        var ig = ignore().addIgnoreFile('.gitignore');
+        patterns = ig.filter(patterns);
+
+        patterns.forEach(function (pattern) {
+            var msg = ''+pattern + os.EOL;
+            fs.appendFileSync('.gitignore', msg)
+        });
+
+        if (!isRoot) {
+            process.chdir("..");
+            //console.log('$ cd ..');
+        }
+
+        files.forEach(function (file) {
+            var tmpPath = dir + '/' + file,
+                stats = fs.statSync(tmpPath);
+
+            if (stats.isDirectory()) {
+                walk(false, tmpPath);
+            }
+        });
+    };
+
+    //console.log('$ cd ' + process.cwd());
+    walk(true, process.cwd());
+    console.log('The files which be named after .gitignore have been done. ');
 }
