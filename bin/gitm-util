@@ -70,10 +70,17 @@ exports.currentBranch = function(){
 /**
  * get current git remote name
  */
-exports.currentRemote = function(){
-    var remote = "origin";
-    remote = gitm_execute.execSync('git config branch.master.remote');
-    return remote;
+exports.currentRemoteBranch = function(){
+    var localBranch = currentBranch();
+    var command = 'git config branch.'+ localBranch+ '.remote';
+    return gitm_execute.execSync(command);
+};
+
+/**
+ * get current git remote repo url
+ */
+exports.currentRemoteUrl = function(){
+    return gitm_execute.execSync('git config remote.origin.url');
 };
 
 /**
