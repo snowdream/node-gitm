@@ -17,6 +17,18 @@ function init() {
     initIgnore();
 }
 
+/**
+ *  for json.stringify
+ *  see: http://stackoverflow.com/a/4910689
+ * @param key
+ * @param value
+ * @returns {*}
+ */
+function replacer(key, value) {
+    if (!value) return undefined;
+    if (value instanceof  Array && value.length == 0) return undefined;
+    else return value;
+}
 
 /**
  * check whether the repo.gitm exist.
@@ -28,60 +40,60 @@ function initRepo() {
         return;
     }
 
-    var repo;
+    var repo= {};
     walk = function (isRoot, dir, parent) {
-        var item;
-        var sub;
-
         var files = fs.readdirSync(dir);
-        if (!files.contains('.git')) {
-            return;
-        }
+        if (files.contains('.git')) {
+            var item;
+            var sub;
 
-        if (isRoot) {
-            if (!repo) {
-                repo = {};
-            }
-
-            if (!files.contains('.git')) {
-                item = sub = repo.repositories = [];
-            } else {
-                item = sub = repo.repository = {};
-            }
-        } else {
-            item = {};
-            sub = item.repositories = [];
-        }
-
-        if (!isRoot) {
-            try {
-                process.chdir(dir);
-                console.log(os.EOL);
-                console.log('$ cd ' + dir);
-            }
-            catch (err) {
-                console.log('chdir: ' + err);
-            }
-        }
-
-        if (!(item instanceof  Array)) {
-            item.url = gitm_util.currentRemoteUrl();
-        }
-
-        if (parent) {
-            if (parent instanceof  Array) {
-                parent.push(item);
-            } else {
-                if (!parent.repositories) {
-                    parent.repositories = [];
+            if (isRoot) {
+                if (!repo) {
+                    repo = {};
                 }
-                parent.repositories.push(item);
-            }
-        }
 
-        if (!isRoot) {
-            process.chdir("..");
-            console.log('$ cd ..');
+                if (!files.contains('.git')) {
+                    item = sub = repo.repositories = [];
+                } else {
+                    item = repo.repository = {};
+                    sub = item.repositories = [];
+                }
+            } else {
+                item = {};
+                sub = item.repositories = [];
+            }
+
+            if (!isRoot) {
+                try {
+                    process.chdir(dir);
+                    console.log(os.EOL);
+                    console.log('$ cd ' + dir);
+                }
+                catch (err) {
+                    console.log('chdir: ' + err);
+                }
+            }
+
+            if (!(item instanceof  Array)) {
+                item.url = gitm_util.currentRemoteUrl();
+            }
+
+            if (parent) {
+                if (parent instanceof  Array) {
+                    parent.push(item);
+                }
+            }
+
+            if (!isRoot) {
+                process.chdir("..");
+                console.log('$ cd ..');
+            }
+        }else{
+            if(!isRoot){
+                return;
+            }else{
+                sub = repo.repositories = [];
+            }
         }
 
         files.forEach(function (file) {
@@ -109,18 +121,6 @@ function initRepo() {
     });
 }
 
-/**
- *  for json.stringify
- *  see: http://stackoverflow.com/a/4910689
- * @param key
- * @param value
- * @returns {*}
- */
-function replacer(key, value) {
-    if (!value) return undefined;
-    if (value instanceof  Array && value.length == 0) return undefined;
-    else return value;
-}
 
 /**
  * check whether the branch.gitm exist.
@@ -137,30 +137,36 @@ function initBranch() {
     var default_group_name = 'current';
     walk = function (isRoot, dir, branchInfo) {
         var files = fs.readdirSync(dir);
-        if (!files.contains('.git')) {
-            return;
-        }
-
-        if (!branchInfo[default_group_name]) {
-            branchInfo[default_group_name] = {};
-        }
-
-        if (!isRoot) {
-            try {
-                process.chdir(dir);
-                console.log(os.EOL);
-                console.log('$ cd ' + dir);
+        if (files.contains('.git')) {
+            if (!branchInfo) {
+                branchInfo = {};
             }
-            catch (err) {
-                console.log('chdir: ' + err);
+
+            if (!branchInfo[default_group_name]) {
+                branchInfo[default_group_name] = {};
             }
-        }
 
-        branchInfo[default_group_name][path.basename(process.cwd())] = gitm_util.currentBranch();
+            if (!isRoot) {
+                try {
+                    process.chdir(dir);
+                    console.log(os.EOL);
+                    console.log('$ cd ' + dir);
+                }
+                catch (err) {
+                    console.log('chdir: ' + err);
+                }
+            }
 
-        if (!isRoot) {
-            process.chdir("..");
-            console.log('$ cd ..');
+            branchInfo[default_group_name][path.basename(process.cwd())] = gitm_util.currentBranch();
+
+            if (!isRoot) {
+                process.chdir("..");
+                console.log('$ cd ..');
+            }
+        }else{
+            if(!isRoot){
+                return;
+            }
         }
 
         files.forEach(function (item) {
@@ -183,7 +189,7 @@ function initBranch() {
 
     var outputFilename = './branch.gitm';
 
-    fs.writeFile(outputFilename, JSON.stringify(branchInfo, null, 4), function (err) {
+    fs.writeFile(outputFilename, JSON.stringify(branchInfo, replacer, 4), function (err) {
         if (err) throw err;
         console.info("The branch.gitm has been created..");
     });
@@ -228,7 +234,7 @@ function initIgnore() {
         patterns = ig.filter(patterns);
 
         patterns.forEach(function (pattern) {
-            var msg = ''+pattern + os.EOL;
+            var msg = '' + pattern + os.EOL;
             fs.appendFileSync('.gitignore', msg)
         });
 
