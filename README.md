@@ -1,4 +1,4 @@
-#gitm
+# gitm
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
 
@@ -16,7 +16,7 @@ npm install gitm -g
 
 ## Scene
 ### Scene One
-![Scene One](docs/img/workflow0.png)
+![Scene One](https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/workflow0.png)
 
 If you have a project A on the left.          
 Now, you want to modularize it to the project A on the right.
@@ -27,7 +27,7 @@ For the project A on the right, project A is not a git repository, project Main 
 Browse the example at [repositories](examples/repositories)
 
 ### Scene Two
-![Scene One](docs/img/workflow1.png)
+![Scene One](https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/workflow1.png)
 
 If you have a project B on the left.          
 Now, you want to modularize it to the project B on the right.
@@ -41,7 +41,7 @@ Browse the example at [repository](examples/repository)
 Usually, gitm needs two config files. **repo.gitm** and  **branch.gitm**   
 
 ### **repo.gitm** 
-![repo.gitm](docs/img/repo.png)
+![repo.gitm](https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/repo.png)
 
 1. **repository**, required，represent the outermost project is a git repository.
 1. **url**, required，represent url for the git repository.
@@ -50,7 +50,7 @@ Usually, gitm needs two config files. **repo.gitm** and  **branch.gitm**
 1. **repositories**, optional，represent the git repository has sub git repositories.
 
 ### **branch.gitm** 
-![branch.gitm](docs/img/branch.png)
+![branch.gitm](https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/branch.png)
 
 1. **new/develop/master**, required，represent the group name of the branches.
 1. **gitmA**, required，represent local name for the git repository.
@@ -81,7 +81,7 @@ Read the file **repo.gitm** from the url, other operation is the same as the com
 ### gitm checkout [name]
 
 Check the file  **branch.gitm**，if the **name** does not exist in the names of group, then `git checkout [name]` will be executed in every git repository.else deal it with the following rules.
-![gitm checkout](docs/img/checkout.png)
+![gitm checkout](https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/checkout.png)
 ```bash
 gitm checkout new
 ```

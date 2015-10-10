@@ -1,7 +1,7 @@
 {
   "name": "gitm",
-  "description": "The multiple repository tool.",
-  "version": "0.3.0",
+  "description": "A simple but useful tool to manage multiple git repositories.",
+  "version": "0.3.1",
   "author": "snowdream <yanghui1986527@gmail.com>",
   "homepage": "https://github.com/snowdream/gitm",
   "keywords": [
@@ -38,7 +38,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   ],
-  "Repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/snowdream/gitm.git"
   },
