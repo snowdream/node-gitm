@@ -85,7 +85,9 @@ Check the file  **branch.gitm**，if the **name** does not exist in the names of
 ```bash
 gitm checkout new
 ```
+
 `git checkout new` will be executed in every git repository. such as **gitmA**.
+
 1. if the branch **new** exist, excute `git checkout new`
 1. if the branch **origin/new** exist, excute `git checkout –b new origin/new`
 1. if the branch **develop** exist, excute `git checkout –b new develop`
