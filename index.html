@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Gitm by snowdream</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Gitm</h1>
+      <h2 class="project-tagline">The multiple repository tool </h2>
+      <a href="https://github.com/snowdream/gitm" class="btn">View on GitHub</a>
+      <a href="https://github.com/snowdream/gitm/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/snowdream/gitm/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="gitm" class="anchor" href="#gitm" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm</h1>
+
+<p><a href="https://npmjs.org/package/gitm"><img src="https://img.shields.io/npm/v/gitm.svg" alt="NPM Version"></a>
+  <a href="https://npmjs.org/package/gitm"><img src="https://img.shields.io/npm/dm/gitm.svg" alt="NPM Downloads"></a></p>
+
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>A simple but useful tool to manage multiple git repositories.<br>
+Be similar to repo, git submodule.</p>
+
+<h2>
+<a id="system-requirements" class="anchor" href="#system-requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>System requirements</h2>
+
+<p>Node.js v0.12.0+</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<div class="highlight highlight-source-shell"><pre>npm install gitm -g</pre></div>
+
+<h2>
+<a id="scene" class="anchor" href="#scene" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scene</h2>
+
+<h3>
+<a id="scene-one" class="anchor" href="#scene-one" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scene One</h3>
+
+<p><img src="https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/workflow0.png" alt="Scene One"></p>
+
+<p>If you have a project A on the left.<br>
+Now, you want to modularize it to the project A on the right.</p>
+
+<p>For the project A on the left, It is a git repository.<br>
+For the project A on the right, project A is not a git repository, project Main and project Module ** are all git repositories.</p>
+
+<p>Browse the example at <a href="examples/repositories">repositories</a></p>
+
+<h3>
+<a id="scene-two" class="anchor" href="#scene-two" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scene Two</h3>
+
+<p><img src="https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/workflow1.png" alt="Scene One"></p>
+
+<p>If you have a project B on the left.<br>
+Now, you want to modularize it to the project B on the right.</p>
+
+<p>For the project B on the left, It is a git repository.<br>
+For the project B on the right, project B, project Main and project Module ** are all git repositories.</p>
+
+<p>Browse the example at <a href="examples/repository">repository</a></p>
+
+<h2>
+<a id="config" class="anchor" href="#config" aria-hidden="true"><span class="octicon octicon-link"></span></a>Config</h2>
+
+<p>Usually, gitm needs two config files. <strong>repo.gitm</strong> and  <strong>branch.gitm</strong>   </p>
+
+<h3>
+<a id="repogitm" class="anchor" href="#repogitm" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>repo.gitm</strong>
+</h3>
+
+<p><img src="https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/repo.png" alt="repo.gitm"></p>
+
+<ol>
+<li>
+<strong>repository</strong>, required，represent the outermost project is a git repository.</li>
+<li>
+<strong>url</strong>, required，represent url for the git repository.</li>
+<li>
+<strong>branches</strong>, optional，represent local branches for the git repository. the first branch will be the default branch.</li>
+<li>
+<strong>name</strong>, optional，represent local name for the git repository. if this is not provided, then try to guess it from the url.</li>
+<li>
+<strong>repositories</strong>, optional，represent the git repository has sub git repositories.</li>
+</ol>
+
+<h3>
+<a id="branchgitm" class="anchor" href="#branchgitm" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>branch.gitm</strong>
+</h3>
+
+<p><img src="https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/branch.png" alt="branch.gitm"></p>
+
+<ol>
+<li>
+<strong>new/develop/master</strong>, required，represent the group name of the branches.</li>
+<li>
+<strong>gitmA</strong>, required，represent local name for the git repository.</li>
+<li>
+<strong>new:develop</strong>, <strong>new</strong> is required，<strong>develop</strong> is optional，<strong>new</strong> represent local branch for the git repository. <strong>develop</strong> represent the local branch <strong>new</strong> may be created from the branch <strong>develop</strong> or the branch <strong>origin/develop</strong>.</li>
+</ol>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p><strong>Warning: All the commands as follows should be executed in the root path.</strong>
+<strong>For Scene One, the root path is Project A.</strong>
+<strong>For Scene Two, the root path is Project B.</strong></p>
+
+<h3>
+<a id="gitm-init" class="anchor" href="#gitm-init" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm init</h3>
+
+<ul>
+<li>If <strong>repo.gitm</strong> does not exist in the root path, try to create it.</li>
+<li>If <strong>branch.gitm</strong> does not exist in the root path, try to create it.</li>
+<li>If <strong>.gitignore</strong> does not exist in every git repository, try to create it. If sub git repository exist, try to add them name into the file .gitignore.</li>
+</ul>
+
+<h3>
+<a id="gitm-clone" class="anchor" href="#gitm-clone" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm clone</h3>
+
+<div class="highlight highlight-source-shell"><pre>gitm clone</pre></div>
+
+<p>Read the file <strong>repo.gitm</strong> in the current directory, and clone every git repository.<br>
+If the property <strong>branches</strong> exist, every branch will be checkout. The fisrt branch will be the default branch.</p>
+
+<div class="highlight highlight-source-shell"><pre>gitm clone https://raw.githubusercontent.com/snowdream/gitm/master/examples/repository/repo.gitm</pre></div>
+
+<p>Read the file <strong>repo.gitm</strong> from the url, other operation is the same as the command <code>gitm clone</code></p>
+
+<h3>
+<a id="gitm-checkout-name" class="anchor" href="#gitm-checkout-name" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm checkout [name]</h3>
+
+<p>Check the file  <strong>branch.gitm</strong>，if the <strong>name</strong> does not exist in the names of group, then <code>git checkout [name]</code> will be executed in every git repository.else deal it with the following rules.
+<img src="https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/checkout.png" alt="gitm checkout"></p>
+
+<div class="highlight highlight-source-shell"><pre>gitm checkout new</pre></div>
+
+<p><code>git checkout new</code> will be executed in every git repository. such as <strong>gitmA</strong>.</p>
+
+<ol>
+<li>if the branch <strong>new</strong> exist, excute <code>git checkout new</code>
+</li>
+<li>if the branch <strong>origin/new</strong> exist, excute <code>git checkout –b new origin/new</code>
+</li>
+<li>if the branch <strong>develop</strong> exist, excute <code>git checkout –b new develop</code>
+</li>
+<li>if the branch <strong>origin/develop</strong> exist, excute <code>git checkout –b new origin/develop</code>
+</li>
+<li>if all the branch up does not exist, excute <code>git checkout –b new</code>
+</li>
+</ol>
+
+<p>All the steps will be taken in order. once a step has been taken, then the command is finished, and the rest steps will not be taken.</p>
+
+<h3>
+<a id="gitm-fetch" class="anchor" href="#gitm-fetch" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm fetch</h3>
+
+<div class="highlight highlight-source-shell"><pre>gitm fetch</pre></div>
+
+<p>Check the file  <strong>repo.gitm</strong>，execute the following command in every git repository.   </p>
+
+<div class="highlight highlight-source-shell"><pre>git fetch --all --progress -v</pre></div>
+
+<p>If <code>gitm fetch</code> has any other parameters, such as <code>gitm fetch origin master</code>
+Then <code>git fetch origin master</code> will be executed in every git repository.</p>
+
+<h3>
+<a id="gitm-pull" class="anchor" href="#gitm-pull" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm pull</h3>
+
+<div class="highlight highlight-source-shell"><pre>gitm pull</pre></div>
+
+<p>Check the file  <strong>repo.gitm</strong>，execute the following command in every git repository.   </p>
+
+<div class="highlight highlight-source-shell"><pre>git pull origin branch --progress -v</pre></div>
+
+<p><strong>branch</strong> is the current branch of the git repository.</p>
+
+<p>If <code>gitm pull</code> has any other parameters, such as <code>gitm pull origin master</code>
+Then <code>git pull origin master</code> will be executed in every git repository.</p>
+
+<h3>
+<a id="gitm-push" class="anchor" href="#gitm-push" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm push</h3>
+
+<div class="highlight highlight-source-shell"><pre>gitm push</pre></div>
+
+<p>Check the file  <strong>repo.gitm</strong>，execute the following command in every git repository.   </p>
+
+<div class="highlight highlight-source-shell"><pre>git push origin branch:branch --progress -v</pre></div>
+
+<p><strong>branch</strong> is the current branch of the git repository.</p>
+
+<p>If <code>gitm push</code> has any other parameters, such as <code>gitm push origin master</code>
+Then <code>git push origin master</code> will be executed in every git repository.</p>
+
+<h3>
+<a id="gitm-help-cmd" class="anchor" href="#gitm-help-cmd" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm help [cmd]</h3>
+
+<p>Such as <code>gitm help clone</code>. It will execute the following command only once.</p>
+
+<div class="highlight highlight-source-shell"><pre>git <span class="pl-c1">help</span> clone</pre></div>
+
+<h3>
+<a id="gitm--h---gitm---help" class="anchor" href="#gitm--h---gitm---help" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm -h  / gitm --help</h3>
+
+<p>show helps for gitm</p>
+
+<h3>
+<a id="gitm--v---gitm---version" class="anchor" href="#gitm--v---gitm---version" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitm -V  / gitm --version</h3>
+
+<p>show version for gitm</p>
+
+<h3>
+<a id="other-git-commands-which-have-not-been-list-here-such-as-gitm-tag-v01" class="anchor" href="#other-git-commands-which-have-not-been-list-here-such-as-gitm-tag-v01" aria-hidden="true"><span class="octicon octicon-link"></span></a>Other git commands which have not been list here, such as <code>gitm tag v0.1</code>
+</h3>
+
+<p>Use git in place of gitm, then execute the command in every git repository. </p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<pre><code>Copyright (C) 2015 Snowdream Mobile &lt;yanghui1986527@gmail.com&gt;
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/snowdream/gitm">Gitm</a> is maintained by <a href="https://github.com/snowdream">snowdream</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
