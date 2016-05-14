@@ -1,6 +1,9 @@
-# gitm
-  [![NPM Version][npm-image]][npm-url]
-  [![NPM Downloads][downloads-image]][downloads-url]
+# gitm  
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
+[![Gratipay][gratipay-image]][gratipay-url]
 
 ## Introduction
 A simple but useful tool to manage multiple git repositories.     
@@ -170,5 +173,12 @@ limitations under the License.
 
 [npm-image]: https://img.shields.io/npm/v/gitm.svg
 [npm-url]: https://npmjs.org/package/gitm
+[travis-image]: https://img.shields.io/travis/snowdream/node-gitm/master.svg
+[travis-url]: https://travis-ci.org/snowdream/node-gitm
+[coveralls-image]: https://img.shields.io/coveralls/snowdream/node-gitm/master.svg
+[coveralls-url]: https://coveralls.io/r/snowdream/node-gitm?branch=master
 [downloads-image]: https://img.shields.io/npm/dm/gitm.svg
 [downloads-url]: https://npmjs.org/package/gitm
+[gratipay-image]: https://img.shields.io/gratipay/snowdream.svg
+[gratipay-url]: https://www.gratipay.com/snowdream/
+  
