@@ -43,7 +43,7 @@ function gitm_main() {
         var version = pjson.version;
 
         program
-            .version(version)
+            .version(version,"-v, --version")
             .command('init', 'init gitm')
             .command('clone [url]', 'clone all git repositories.')
             .command('checkout [group]', 'checkout all git repositories.')
