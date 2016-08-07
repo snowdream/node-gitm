@@ -1,0 +1,20 @@
+{
+  "new":{
+    "gitmA": "new:develop",
+    "gitmB": "new:develop",
+    "gitmC": "new:develop",
+    "gitmO": "new:develop"
+  },
+  "develop":{
+    "gitmA": "develop",
+    "gitmB": "develop",
+    "gitmC": "develop",
+    "gitmO": "develop"
+  },
+  "master":{
+    "gitmA": "master",
+    "gitmB": "master",
+    "gitmC": "master",
+    "gitmO": "master"
+  }
+}
