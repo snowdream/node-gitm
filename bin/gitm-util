@@ -39,7 +39,7 @@ exports.gitm2argv = function () {
 exports.getType = function () {
     var type = 2;
     var arg = process.argv.slice(2,3);
-    var gitm_support = ['init','pull','push','fetch','checkout','clone','-h', '--help', '-V', '--version'];
+    var gitm_support = ['init','pull','push','fetch','checkout','clone','-h', '--help', '-V', "-v",'--version'];
     var git_support_one =['help'];
 
     if(process.argv.length > 3 && process.argv.contains('--help')){
