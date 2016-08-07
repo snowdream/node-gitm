@@ -6,6 +6,7 @@ var program = require('commander');
 var gitm_execute = require('./gitm-execute');
 var os = require('os');
 var gitm_util = require('./gitm-util');
+const assert = require('assert');
 
 program
     .parse(process.argv);
@@ -114,19 +115,21 @@ function git_checkout(repo) {
                 repo.repositories[i].name = getRepoName(repo.repositories[i].url);
             }
 
-            try {
-                process.chdir(repo.repositories[i].name);
-                console.log(os.EOL);
-                console.log('$ cd ' + repo.repositories[i].name);
-            }
-            catch (err) {
-                console.log('chdir: ' + err);
-            }
+
+            var current_dir = process.cwd();
+            assert(current_dir);
+
+            gitm_util.chdirRepo(repo.repositories[i]);
+
 
             git_checkout(repo.repositories[i]);
 
-            process.chdir("..");
-            console.log('$ cd ..');
+            try {
+                process.chdir(current_dir);
+                console.log('$  cd '+ current_dir);
+            }catch (err) {
+                console.log('chdir: ' + err);
+            }
         }
 
     }

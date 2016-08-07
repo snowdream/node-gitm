@@ -3,6 +3,7 @@
 var gitm_execute = require('./gitm-execute');
 var fs = require('fs');
 var os = require('os');
+var path = require('path');
 
 /**
  * change command from gitm style to git style
@@ -126,6 +127,58 @@ exports.isRemoteBranchExist = function(branch){
 exports.getOriginUrl = function(){
     var url = gitm_execute.execSync('git config --local --get remote.origin.url');
     return url;
+};
+
+/**
+ * chdir to the repo dir
+ *
+ * @param repo
+ */
+exports.chdirRepo = function(repo){
+    if(!repo){
+        console.log(os.EOL);
+        console.log('Invalid repo.');
+        return;
+    }
+
+    try {
+        var dir;
+        if(repo.dir){
+            dir = path.join(repo.dir,repo.name);
+        }else{
+            dir = repo.name;
+        }
+
+        process.chdir(dir);
+        console.log(os.EOL);
+        console.log('$ cd ' + dir);
+    }catch (err) {
+        console.log('chdir: ' + err);
+    }
+};
+
+
+/**
+ * get dir from repo
+ * 
+ * @param repo
+ * @returns {*}
+ */
+exports.getdirFromRepo = function(repo){
+    if(!repo){
+        console.log(os.EOL);
+        console.log('Invalid repo.');
+        return;
+    }
+
+    var dir;
+    if(repo.dir){
+        dir = path.join(repo.dir,repo.name);
+    }else{
+        dir = repo.name;
+    }
+
+    return dir;
 };
 
 

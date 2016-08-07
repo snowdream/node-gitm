@@ -5,6 +5,8 @@ var request = require('sync-request');
 var program = require('commander');
 var gitm_execute = require('./gitm-execute');
 var os = require('os');
+var gitm_util = require('./gitm-util');
+const assert = require('assert');
 
 program
     .parse(process.argv);
@@ -60,21 +62,16 @@ function clone(repo, dir) {
         repo.name = getRepoName(repo.url);
     }
 
-    gitm_execute.execSync("git clone " + repo.url + " " + repo.name + " --progress -v");
+    var directory = gitm_util.getdirFromRepo(repo);
+    gitm_execute.execSync("git clone " + repo.url + " " + directory + " --progress -v");
 
     if(repo.branches){
-        try {
-            if (!fs.existsSync(repo.name)) {
-                fs.mkdirSync(repo.name);
-            }
-            process.chdir(repo.name);
-            console.log(os.EOL);
-            console.log('$ cd ' + repo.name);
-        }
-        catch (err) {
-            console.log('chdir: ' + err);
-        }
+        var current_dir = process.cwd();
+        assert(current_dir);
 
+        gitm_util.chdirRepo(repo);
+
+        //checkout branches
         for (var len = repo.branches.length, i = len -1; i >= 0; i--) {
             var branch = repo.branches[i];
             if(branch == "master"){
@@ -86,29 +83,19 @@ function clone(repo, dir) {
             gitm_execute.execSync("git checkout -b " + branch+" origin/" + branch);
         }
 
-        process.chdir("..");
-        console.log('$  cd ..');
-    }
-
-    if (repo.repositories) {
-        try {
-            if (!fs.existsSync(repo.name)) {
-                fs.mkdirSync(repo.name);
+        //clone sub project
+        if (repo.repositories) {
+            for (var i = 0, len = repo.repositories.length; i < len; i++) {
+                clone(repo.repositories[i]);
             }
-            process.chdir(repo.name);
-            console.log(os.EOL);
-            console.log('$ cd ' + repo.name);
         }
-        catch (err) {
+
+        try {
+            process.chdir(current_dir);
+            console.log('$  cd '+ current_dir);
+        }catch (err) {
             console.log('chdir: ' + err);
         }
-
-        for (var i = 0, len = repo.repositories.length; i < len; i++) {
-            clone(repo.repositories[i]);
-        }
-
-        process.chdir("..");
-        console.log('$ cd ..');
     }
 }
 

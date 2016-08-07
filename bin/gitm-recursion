@@ -4,6 +4,8 @@ var fs = require('fs');
 var request = require('sync-request');
 var gitm_execute = require('./gitm-execute');
 var os = require('os');
+var gitm_util = require('./gitm-util');
+const assert = require('assert');
 
 var repo;
 try{
@@ -81,19 +83,19 @@ function git_command(repo,command) {
                 repo.repositories[i].name = getRepoName(repo.repositories[i].url);
             }
 
-            try {
-                process.chdir(repo.repositories[i].name);
-                console.log(os.EOL);
-                console.log('$ cd ' + repo.repositories[i].name);
-            }
-            catch (err) {
-                console.log('chdir: ' + err);
-            }
+            var current_dir = process.cwd();
+            assert(current_dir);
+
+            gitm_util.chdirRepo(repo.repositories[i]);
 
             git_command(repo.repositories[i],command);
 
-            process.chdir("..");
-            console.log('$ cd ..');
+            try {
+                process.chdir(current_dir);
+                console.log('$  cd '+ current_dir);
+            }catch (err) {
+                console.log('chdir: ' + err);
+            }
         }
 
     }
