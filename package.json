@@ -10,7 +10,9 @@
     "tools"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha  --reporter spec",
+    "mocha": "./node_modules/.bin/mocha  --reporter spec",
+    "cov": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha*"
   },
   "main": "index.js",
   "bin": {
@@ -50,6 +52,7 @@
     "sync-request": "^2.0.1"
   },
   "devDependencies": {
+    "istanbul": "^0.4.4",
     "mocha": "^3.0.2"
   }
 }
