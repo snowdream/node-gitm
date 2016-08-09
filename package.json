@@ -48,5 +48,8 @@
     "config": "^1.14.0",
     "ignore": "^2.2.18",
     "sync-request": "^2.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2"
   }
 }
