@@ -65,22 +65,24 @@ function clone(repo, dir) {
     var directory = gitm_util.getdirFromRepo(repo);
     gitm_execute.execSync("git clone " + repo.url + " " + directory + " --progress -v");
 
-    if(repo.branches){
+    if(repo.branches || repo.repositories){
         var current_dir = process.cwd();
         assert(current_dir);
 
         gitm_util.chdirRepo(repo);
 
         //checkout branches
-        for (var len = repo.branches.length, i = len -1; i >= 0; i--) {
-            var branch = repo.branches[i];
-            if(branch == "master"){
-                if(i != 0){
-                    continue;
+        if (repo.branches) {
+            for (var len = repo.branches.length, i = len - 1; i >= 0; i--) {
+                var branch = repo.branches[i];
+                if (branch == "master") {
+                    if (i != 0) {
+                        continue;
+                    }
+                    gitm_execute.execSync("git checkout " + branch);
                 }
-                gitm_execute.execSync("git checkout " + branch);
+                gitm_execute.execSync("git checkout -b " + branch + " origin/" + branch);
             }
-            gitm_execute.execSync("git checkout -b " + branch+" origin/" + branch);
         }
 
         //clone sub project
