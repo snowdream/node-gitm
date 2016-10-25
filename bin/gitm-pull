@@ -11,9 +11,9 @@ function command() {
     if(process.argv.length <= 2){
         var branch = gitm_util.currentBranch();
         if (branch) {
-            command =  ("git pull origin " + branch + " --progress -v");
+            command =  ("git pull origin " + branch + " --rebase --progress -v");
         } else {
-            command =  ("git pull origin --progress -v");
+            command =  ("git pull origin --rebase--progress -v");
         }
     }
 

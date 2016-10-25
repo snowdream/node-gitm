@@ -17,6 +17,11 @@ Node.js v0.12.0+
 npm install gitm -g
 ```
 
+## ChangeLog
+###  0.3.6
+1. use "git pull --rebase" instead of "git pull" as the default option.
+
+
 ## Scene
 ### Scene One
 ![Scene One](https://raw.githubusercontent.com/snowdream/gitm/master/docs/img/workflow0.png)
