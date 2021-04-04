@@ -46,13 +46,13 @@
   },
   "dependencies": {
     "asciimo": "^0.3.1",
-    "commander": "^2.9.0",
-    "config": "^1.14.0",
-    "ignore": "^2.2.18",
-    "sync-request": "^2.0.1"
+    "commander": "^7.2.0",
+    "config": "^3.3.6",
+    "ignore": "^5.1.8",
+    "sync-request": "^6.1.0"
   },
   "devDependencies": {
     "istanbul": "^0.4.4",
-    "mocha": "^3.0.2"
+    "mocha": "^8.3.2"
   }
 }
