@@ -1,8 +1,6 @@
 name: Node.js Package Gitm
 on:
   push:
-    branches:
-      - master
     tags:
       - "*"
   pull_request:
