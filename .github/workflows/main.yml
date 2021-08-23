@@ -8,12 +8,13 @@ on:
   pull_request:
     tags:
       - "*"
+  workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntu-latest 
-    permissions: 
+    runs-on: ubuntu-latest
+    permissions:
       contents: read
-      packages: write 
+      packages: write
     steps:
       - uses: actions/checkout@v2
       # # Setup .npmrc file to publish to npm
@@ -29,9 +30,9 @@ jobs:
       # Setup .npmrc file to publish to GitHub Packages
       - uses: actions/setup-node@v2
         with:
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: "https://npm.pkg.github.com"
           # Defaults to the user or organization that owns the workflow file
-          scope: '@snowdream'
+          scope: "@snowdream"
       # Publish to GitHub Packages
       - run: npm publish
         env:
