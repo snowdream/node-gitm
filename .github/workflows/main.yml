@@ -1,21 +1,24 @@
 name: Node.js Package Gitm
 on:
   push:
-    branches: 
-    - master
+    tags:
+      - "*"
+  pull_request:
+    tags:
+      - "*"
 jobs:
   build:
-    runs-on: ubuntu-latest 
-    permissions: 
+    runs-on: ubuntu-latest
+    permissions:
       contents: read
-      packages: write 
+      packages: write
     steps:
       - uses: actions/checkout@v2
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "14.x"
+          registry-url: "https://registry.npmjs.org"
       - run: npm install
       # Publish to npm
       - run: npm publish --access public
@@ -24,9 +27,9 @@ jobs:
       # Setup .npmrc file to publish to GitHub Packages
       - uses: actions/setup-node@v2
         with:
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: "https://npm.pkg.github.com"
           # Defaults to the user or organization that owns the workflow file
-          scope: '@snowdream'
+          scope: "@snowdream"
       # Publish to GitHub Packages
       - run: npm publish
         env:
