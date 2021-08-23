@@ -1,7 +1,7 @@
 name: Node.js Package Gitm
 on:
   push:
-    branch:
+    branches:
       - master
     tags:
       - "*"
@@ -37,4 +37,3 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          
