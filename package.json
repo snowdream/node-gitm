@@ -1,7 +1,7 @@
 {
   "name": "gitm",
   "description": "A simple but useful tool to manage multiple git repositories.",
-  "version": "0.3.9",
+  "version": "0.4.0",
   "author": "snowdream <sn0wdr1am@icloud.com>",
   "homepage": "https://github.com/snowdream/gitm",
   "keywords": [
