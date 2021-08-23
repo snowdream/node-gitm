@@ -14,7 +14,7 @@ Node.js v0.12.0+
 
 ## Installation
 ```bash
-npm install gitm -g
+npm install @snowdream/gitm -g
 ```
 
 ## ChangeLog
