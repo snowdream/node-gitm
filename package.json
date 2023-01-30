@@ -1,7 +1,7 @@
 {
   "name": "@snowdream/gitm",
   "description": "A simple but useful tool to manage multiple git repositories.",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "author": "snowdream <sn0wdr1am@icloud.com>",
   "homepage": "https://github.com/snowdream/gitm",
   "keywords": [
@@ -46,13 +46,13 @@
   },
   "dependencies": {
     "asciimo": "^0.3.1",
-    "commander": "^7.2.0",
-    "config": "^3.3.6",
-    "ignore": "^5.1.8",
+    "commander": "^10.0.0",
+    "config": "^3.3.9",
+    "ignore": "^5.2.4",
     "sync-request": "^6.1.0"
   },
   "devDependencies": {
     "istanbul": "^0.4.4",
-    "mocha": "^8.3.2"
+    "mocha": "^10.2.0"
   }
 }
